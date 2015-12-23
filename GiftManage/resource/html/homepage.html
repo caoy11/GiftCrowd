@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dashboard Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+   <script src="../js/jquery.cookie.js"></script>
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Gift Crowd Fund</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Message <span class="caret"></span></a>
+                  <ul class="dropdown-menu" id="request_list">
+                  </ul>
+                </li>
+            <li><a id="logout">Log out</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active" id = "clickhome"><a href="#">Home</a></li>
+            <li id = "clickmywish"><a href="#">Wish</a></li>
+            <li id = "clickmysupport"><a href="#">Support</a></li>
+            <li id = "clickfriends"><a href="#">Friends</a></li>
+            <li id = "clicksearch"><a href="#">Search</a></li>
+            <li id = "clicksettings"><a href="#">Settings</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id = "homepage">
+          <h2 class="page-header">My Home</h2>
+
+          <div class="row placeholders">
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <img src="../image/dog.jpg" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <br><br><br><br>
+              <h4 id = "username_main">Name</h4>
+              <span class="text-muted">Something else</span>
+
+            </div>
+          </div>
+
+          <h2 class="sub-header">Activity History</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>history</th>
+                  <th>time</th>
+                </tr>
+              </thead>
+              <tbody id = "history_list">
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id = "friendpage">
+          <ul class="list-group" id="friend_list">
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id = "wishpage">
+          <br>
+          <button type="button" class="btn btn-default" data-toggle="modal" data-target="#new_gift_modal" onclick="clearmodal()">Create new gift</button>
+          <br><br>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>gift</th>
+                  <th>price</th>
+                  <th>fund</th>
+                </tr>
+              </thead>
+              <tbody id = "gift_list">
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id = "supportpage">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>gift</th>
+                  <th>fund</th>
+                </tr>
+              </thead>
+              <tbody id = "fund_list">
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id = "searchpage">
+          <div class="col-lg">
+            <form>
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search for..." id = "friend_name_search">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button" onclick="searchfriend()">Search</button>
+                </span>
+              </div><!-- /input-group -->
+            </form>
+            <br>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>friend name</th>
+                    <th>isfriend</th>
+                    <th>operation</th>
+                  </tr>
+                </thead>
+                <tbody id = "search_result">
+                </tbody>
+              </table>
+            </div>
+          </div><!-- /.col-lg-6 -->
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id = "gift_detail_page">
+          <br>
+          <h2 class="sub-header">Gift Details</h2>
+           <div class="row placeholders">
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <br>
+              <h4>Name</h4>
+              <span class="text-muted" id = "gift_name">Something else</span>
+              <h4>Price</h4>
+              <span class="text-muted" id = "gift_price">Something else</span>
+              <h4>Url</h4>
+              <span class="text-muted" id = "gift_url">Something else</span>
+              <h4>Detail</h4>
+              <span class="text-muted" id = "gift_detail">Something else</span>
+              <h4>Fund</h4>
+              <span class="text-muted" id = "gift_fund">Something else</span>
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <br><br><br><br><br>
+              <button type="button" class="btn btn-default" data-toggle="modal" data-target="#new_fund_modal" onclick="clearmodal()">Pay fund for this gift</button>
+            </div>
+          </div>
+
+          <h2 class="sub-header">Fund History</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>friend name</th>
+                  <th>fund</th>
+                </tr>
+              </thead>
+              <tbody id = "gift_detail_list">
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id = "friend_detail_page">
+          <h2 class="page-header">Friend Detail</h2>
+
+          <div class="row placeholders">
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <img src="../image/dog2.jpg" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <br><br><br><br>
+              <h4 id = "friendname_main">Name</h4>
+              <span class="text-muted">Something else</span>
+            </div>
+          </div>
+
+          <h2 class="sub-header">Wishes</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>gift</th>
+                  <th>price</th>
+                  <th>fund</th>
+                </tr>
+              </thead>
+              <tbody id = "friend_gift_list">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="new_gift_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+     <div class="modal-dialog">
+        <div class="modal-content">
+           <div class="modal-header">
+              <h4 class="modal-title" id="myModalLabel">
+                 Create new wish
+              </h4>
+           </div>
+           <div class="modal-body">
+            <label>Gift Name</label>
+            <input type="text" class="form-control" placeholder="Gift Name" id = "new_gift_name">
+            <label>Price</label>
+            <input type="text" class="form-control" placeholder="Price" id = "new_gift_price" onkeyup="this.value=this.value.replace(/[^0-9.]/g,'')">
+            <label>Url</label>
+            <input type="text" class="form-control" placeholder="Url" id = "new_gift_url">
+            <label>Details</label>
+            <textarea class="form-control" id="message-text" placeholder="Details" id = "new_gift_detail"></textarea>
+            <label id="new_gift_remind"></label>
+           </div>
+           <div class="modal-footer">
+              <button type="button" class="btn btn-default" onclick="creatnewgift()">submit</button>
+           </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal -->
+    </div>
+    <div class="modal fade" id="new_fund_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+     <div class="modal-dialog">
+        <div class="modal-content">
+           <div class="modal-header">
+              <h4 class="modal-title" id="myModalLabel">
+                 Create new fund
+              </h4>
+           </div>
+           <div class="modal-body">
+            <label>Fund</label>
+            <input type="text" class="form-control" placeholder="Price" id = "new_fund_amount" onkeyup="this.value=this.value.replace(/[^0-9.]/g,'')">
+            <label id="new_fund_remind"></label>
+           </div>
+           <div class="modal-footer">
+              <button type="button" class="btn btn-default" onclick="createnewfund()">submit</button>
+           </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal -->
+    </div>
+  </body>
+
+  <script type="text/javascript">
+
+  init();
+  showitem('#homepage');
+  username = "";
+  currentgiftid = 0;
+  currentgiftname = "";
+  currentgiftpricedif = 0;
+
+  function init(){
+    if($.cookie('gift_username') == undefined){
+      window.location.href='../';
+    } else {
+      username = $.cookie('gift_username');
+      $('#username_main').text(username);
+      gethistory();
+      getfriendrequest();
+    }
+  }
+
+  function gethistory(){
+    $.get(
+          "../../GiftManage/gethistory",
+          {
+            username: $.cookie('gift_username')
+          }).done(
+            function(data,status){
+              var result = JSON.parse(data);
+              if(result['status'] != "error") {
+                $('#history_list').html("");
+                for(var i = 0; i < result['result'].length; i++) {
+                  hh = result['result'][i];
+                  $('#history_list').append(
+                    "<tr><td>" + hh['detail'] + "</td><td>" + hh['time'] + "</td></tr>"
+                    );
+                }
+              }
+          });
+  }
+
+  function getfriendrequest(){
+    $.get(
+          "../../GiftManage/getfriendrequest",
+          {
+            username: $.cookie('gift_username')
+          }).done(
+            function(data,status){
+              var result = JSON.parse(data);
+              if(result['status'] != "error") {
+                $('#request_list').html("");
+                for(var i = 0; i < result['result'].length; i++) {
+                  friend = result['result'][i];
+                  $('#request_list').append(
+                    "<li id='friend_id_" + friend + "'><a style='cursor:pointer;' onclick='acceptfriend(\"" + friend + "\")'>" + "add " +friend + "</a></li>"
+                    );
+                }
+              }
+          });
+  }
+
+  function getfriends(){
+    $.get(
+          "../../GiftManage/getfriends",
+          {
+            username: $.cookie('gift_username')
+          }).done(
+            function(data,status){
+              var result = JSON.parse(data);
+              if(result['status'] != "error") {
+                $('#friend_list').html("");
+                for(var i = 0; i < result['result'].length; i++) {
+                  friend = result['result'][i];
+                  $("#friend_list").append(
+                    "<li class='list-group-item' style='cursor:pointer;' onclick ='viewfriend(\"" + friend + "\")'>" + friend + "</li>"
+                  );
+                }
+              }
+          });
+  }
+
+  function getgifts(){
+    $.get(
+          "../../GiftManage/getgifts",
+          {
+            username: $.cookie('gift_username')
+          }).done(
+            function(data,status){
+              var result = JSON.parse(data);
+              if(result['status'] != "error") {
+                $('#gift_list').html("");
+                for(var i = 0; i < result['result'].length; i++) {
+                  gift = result['result'][i];
+                  amount = 0;
+                  if (gift['get'].amount__sum != null) {
+                    amount = gift['get'].amount__sum;
+                  }
+                  $("#gift_list").append(
+                    "<tr><td><a style='cursor:pointer;' onclick='viewgift(" +  gift['id'] + ")'>" + gift['name'] + "</a></td><td>" + gift['price'] + "</td><td>" + amount +"</td></tr>"
+                  );
+                }
+              }
+          });
+  }
+
+  function getfunds(){
+    $.get(
+          "../../GiftManage/getfunds",
+          {
+            username: $.cookie('gift_username')
+          }).done(
+            function(data,status){
+              var result = JSON.parse(data);
+              if(result['status'] != "error") {
+                $('#fund_list').html("");
+                for(var i = 0; i < result['result'].length; i++) {
+                  gift = result['result'][i];
+                  $("#fund_list").append(
+                    "<tr><td onlick='viewgift(" +  gift['id'] + ")'>" + gift['name'] + "</td><td>" + gift['amount'] +"</td></tr>"
+                  );
+                }
+              }
+          });
+  }
+
+  function getgiftdetail(giftid){
+    $.get(
+          "../../GiftManage/getgiftdetail",
+          {
+            giftid: giftid
+          }).done(
+            function(data,status){
+              var result = JSON.parse(data);
+              if(result['status'] != "error") {
+                $('#gift_detail_list').html("");
+                gift = result['result']['detail'];
+                $('#gift_name').text(gift['giftname']);
+                $('#gift_price').text(gift['price']);
+                $('#gift_url').text(gift['url']);
+                $('#gift_detail').text(gift['content']);
+                amount = 0;
+                if (gift['get'].amount__sum != null) {
+                  amount = gift['get'].amount__sum;
+                }
+                $('#gift_fund').text(amount);
+                currentgiftid = gift['id'];
+                currentgiftname = gift['giftname'];
+                currentgiftpricedif = gift['price'] - amount;
+                for(var i = 0; i < result['result']['funds'].length; i++) {
+                  fund = result['result']['funds'][i];
+                  $("#gift_detail_list").append(
+                    "<tr><td><a>" + fund['username'] + "</a></td><td>" + fund['amount'] +"</td></tr>"
+                  );
+                }
+              }
+          });
+  }
+
+  function getfrienddetail(friendname){
+    $("#friendname_main").text(friendname);
+    $.get(
+          "../../GiftManage/getgifts",
+          {
+            username: friendname
+          }).done(
+            function(data,status){
+              var result = JSON.parse(data);
+              if(result['status'] != "error") {
+                $('#friend_gift_list').html("");
+                for(var i = 0; i < result['result'].length; i++) {
+                  gift = result['result'][i];
+                  amount = 0;
+                  if (gift['get'].amount__sum != null) {
+                    amount = gift['get'].amount__sum;
+                  }
+                  $("#friend_gift_list").append(
+                    "<tr><td><a style='cursor:pointer;' onclick='viewgift(" +  gift['id'] + ")'>" + gift['name'] + "</a></td><td>" + gift['price'] + "</td><td>" + amount +"</td></tr>"
+                  );
+                }
+              }
+          });
+  }
+
+  function acceptfriend(friend){
+    $.get(
+          "../../GiftManage/acceptfriend",
+          {
+            username: $.cookie('gift_username'),
+            friend: friend
+          }).done(
+            function(data,status){
+              var result = JSON.parse(data);
+              if(result['status'] != "error") {
+                $("#friend_id_" + friend).remove();
+              }
+          });
+  }
+
+  function addfriend(friend){
+    $.get(
+          "../../GiftManage/addfriend",
+          {
+            username: $.cookie('gift_username')
+
+            ,
+            friend: friend
+          }).done(
+            function(data,status){
+              var result = JSON.parse(data);
+              if(result['status'] != "error") {
+                $("#search_friend_" + friend).prop("disabled", true);
+              }
+          });
+  }
+
+  function viewfriend(friendname){
+    activeitem("None");
+    showitem("#friend_detail_page");
+    getfrienddetail(friendname);
+  }
+
+  function viewgift(giftid){
+    activeitem("None");
+    showitem("#gift_detail_page");
+    getgiftdetail(giftid);
+  }
+
+  function creatnewgift(){
+    if($("#new_gift_name").val() == "" || $("#new_gift_price").val() == "")
+    {
+      $("#new_gift_remind").text("Gift name or price cannot be empty!");
+      return;
+    }
+    $.get(
+          "../../GiftManage/publishgift",
+          {
+            username: $.cookie('gift_username'),
+            giftname: $("#new_gift_name").val(),
+            price: parseFloat($("#new_gift_price").val()),
+            content : $("#new_gift_detail").val(),
+            url: $("#new_gift_url").val()
+          }).done(
+            function(data,status){
+              var result = JSON.parse(data);
+              if(result['status'] != "error") {
+                $('#new_gift_modal').modal('hide');
+                getgifts();
+              } else {
+                $("#new_gift_remind").text("Unknown error!");
+              }
+          });
+  }
+
+  function createnewfund(){
+    if($("#new_fund_amount").val() == "")
+    {
+      $("#new_fund_remind").text("Gift name or price cannot be empty!");
+      return;
+    }
+    else {
+      amount = parseFloat($("#new_fund_amount").val());
+      if(amount == 0 || amount > currentgiftpricedif) {
+        $("#new_fund_remind").text("Fund amount invalid!");
+      } else {
+        $.get(
+          "../../GiftManage/publishfund",
+          {
+            username: $.cookie('gift_username'),
+            giftname: currentgiftname,
+            giftid: currentgiftid,
+            amount : amount
+          }).done(
+            function(data,status){
+              var result = JSON.parse(data);
+              if(result['status'] != "error") {
+                $('#new_fund_modal').modal('hide');
+                viewgift(currentgiftid);
+              } else {
+                $("#new_fund_remind").text("Unknown error!");
+              }
+          });
+      }
+    }
+  }
+
+  function clearmodal(){
+    $("#new_gift_name").val("");
+    $("#new_gift_price").val("");
+    $("#new_gift_detail").val("");
+    $("#new_gift_url").val("");
+    $("#new_gift_remind").text("");
+    $("#new_fund_remind").text("");
+    $("#new_fund_amount").val("");
+  }
+
+  function searchfriend(){
+    if($("#friend_name_search").val() != "") {
+      $.get(
+          "../../GiftManage/searchfriend",
+          {
+            username: $.cookie('gift_username'),
+            keyword:  $("#friend_name_search").val()
+          }).done(
+            function(data,status){
+              var result = JSON.parse(data);
+              $("#search_result").html("");
+              if(result['status'] != "error") {
+                for(var i = 0; i < result['result'].length; i++) {
+                  friend = result['result'][i];
+                  statue = "No";
+                  if(friend['isfriend']) {
+                    statue = "Yes";
+                  } else if(friend['isrequesting']) {
+                    statue = "Request";
+                  }
+                  $("#search_result").append(
+                    "<tr><td><a>" + friend['name'] + "</a></td><td>" + statue +"</td><td>" + 
+                    "<button id = 'search_friend_" + friend['name'] + "' onclick = 'addfriend(\"" + friend['name'] + "\")'>addfriend</button></td></tr>"
+                  );
+                  if(statue != "No") {
+                    $("#search_friend_" + friend['name']).prop("disabled", true);
+                  }
+                }
+              }
+          });
+    }
+  }
+
+  $( "#clickhome" ).click(function() {
+    activeitem("#clickhome");
+    showitem('#homepage');
+    gethistory();
+  });
+
+  $( "#clickmywish" ).click(function() {
+    activeitem("#clickmywish");
+    showitem('#wishpage');
+    getgifts();
+  });
+
+  $( "#clickmysupport" ).click(function() {
+    activeitem("#clickmysupport");
+    showitem('#supportpage');
+    getfunds();
+  });
+
+  $( "#clickfriends" ).click(function() {
+    activeitem("#clickfriends");
+    showitem('#friendpage');
+    getfriends();
+  });
+
+  $( "#clicksearch" ).click(function() {
+    activeitem("#clicksearch");
+    showitem('#searchpage');
+  });
+
+  $( "#clicksettings" ).click(function() {
+    activeitem("#clicksettings");
+
+  });
+
+  $( "#logout" ).click(function() {
+    $.removeCookie('gift_username', {path: '/'});
+    window.location.href='../';
+  });
+
+  function activeitem(itemid) {
+    var ids = ["#clickhome", "#clickmywish", "#clickmysupport", "#clickfriends", "#clicksettings", "#clicksearch"];
+    for (var i = 0; i < ids.length; i++) {
+      if(itemid == ids[i]) {
+        $(itemid).attr('class', 'active');
+      }
+      else {
+        $(ids[i]).attr('class', '');
+      }
+    }
+  }
+
+  function showitem(itemid) {
+    var ids = ["#homepage", "#friendpage", "#searchpage", "#wishpage", "#supportpage", "#gift_detail_page", "#friend_detail_page"];
+    for (var i = 0; i < ids.length; i++) {
+      if(itemid == ids[i]) {
+        $(itemid).show();
+      }
+      else {
+        $(ids[i]).hide();
+      }
+    }
+  }
+
+  </script>
+</html>
