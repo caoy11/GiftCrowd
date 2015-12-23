@@ -76,14 +76,6 @@ WSGI_APPLICATION = 'GiftCrowd.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'giftcrowd',
-        'USER': 'caoy11',
-        'PASSWORD': 'ineedbigleg',
-        'HOST': 'caoy11.cmokuaa7ziad.us-east-1.rds.amazonaws.com',
-        'PORT': '3306',
-    }
 }
 
 
